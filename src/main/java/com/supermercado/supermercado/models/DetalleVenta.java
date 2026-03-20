@@ -1,5 +1,7 @@
 package com.supermercado.supermercado.models;
 
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,8 +10,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-@Entity
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.EntityListeners;
+
 @Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+// SQLDelete se mantiene igual
+@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+// CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
+@SQLRestriction("deleted = false")
 public class DetalleVenta {
 
     @Id

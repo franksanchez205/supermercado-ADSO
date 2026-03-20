@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -13,8 +14,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-@Entity
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+// SQLDelete se mantiene igual
+@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+// CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
+@SQLRestriction("deleted = false")
 public class Venta {
 
     @Id
@@ -34,6 +46,17 @@ public class Venta {
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.REMOVE)
     private List<DetalleVenta> detalleVentaList;
+
+    @CreatedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date createDate;
+
+    @LastModifiedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date notifieldDate;
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
 
     public Venta() {
     }

@@ -1,6 +1,7 @@
 package com.supermercado.supermercado.models;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +16,20 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.EntityListeners;
 
-@Entity
 @Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+// SQLDelete se mantiene igual
+@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+// CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
+@SQLRestriction("deleted = false")
 public class Empleado {
 
     @Id
@@ -28,7 +40,6 @@ public class Empleado {
     private String uuid;
     private String nombre;
     private String cedula;
-    private LocalDate fechaIngreso;
 
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
@@ -38,16 +49,27 @@ public class Empleado {
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.REMOVE)
     private List<Venta> ventaList;
 
+    @CreatedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date createDate;
+
+    @LastModifiedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date notifieldDate;
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
+
     public Empleado() {
     }
 
-    public Empleado(Long id, String uuid, String nombre, String cedula, LocalDate fechaIngreso, Cargo cargo,
+    public Empleado(Long id, String uuid, String nombre, String cedula, Date createDate, Cargo cargo,
             double salario) {
         this.id = id;
         this.uuid = uuid;
         this.nombre = nombre;
         this.cedula = cedula;
-        this.fechaIngreso = fechaIngreso;
+        this.createDate = createDate;
         this.cargo = cargo;
         this.salario = salario;
     }
