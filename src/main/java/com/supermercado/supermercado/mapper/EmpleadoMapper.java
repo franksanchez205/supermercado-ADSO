@@ -1,0 +1,42 @@
+package com.supermercado.supermercado.mapper;
+
+import java.sql.Date;
+
+import org.springframework.stereotype.Component;
+
+import com.supermercado.supermercado.dtos.EmpleadoDTO;
+import com.supermercado.supermercado.models.Cargo;
+import com.supermercado.supermercado.models.Empleado;
+
+@Component
+public class EmpleadoMapper {
+
+    public EmpleadoDTO toDTO(Empleado empleado) {
+        EmpleadoDTO empleadoDTO = new EmpleadoDTO();
+        empleadoDTO.setUuid(empleado.getUuid());
+        empleadoDTO.setNombre(empleado.getNombre());
+        empleadoDTO.setCedula(empleado.getCedula());
+        if (empleado.getCreateDate() != null) {
+            empleadoDTO.setFechaIngreso(Date.valueOf(empleado.getCreateDate());
+        }
+
+        empleadoDTO.setCargo(empleado.getCargo().name());
+
+        empleadoDTO.setSalario(empleado.getSalario());
+        return empleadoDTO;
+    }
+
+    public Empleado getEmpleado(EmpleadoDTO empleadoDTO) {
+        Empleado empleado = new Empleado();
+        empleado.setUuid(empleadoDTO.getUuid());
+        empleado.setNombre(empleadoDTO.getNombre());
+        empleado.setCedula(empleadoDTO.getCedula());
+        if (empleadoDTO.getFechaIngreso() != null) {
+            empleado.setFechaIngreso(empleadoDTO.getFechaIngreso().toLocalDate());
+        }
+        empleado.setCargo(Cargo.valueOf(empleadoDTO.getCargo().toUpperCase()));
+        empleado.setSalario(empleadoDTO.getSalario());
+        return empleado;
+    }
+
+}
