@@ -1,11 +1,8 @@
 package com.supermercado.supermercado.mapper;
 
-import java.sql.Date;
-
 import org.springframework.stereotype.Component;
 
 import com.supermercado.supermercado.dtos.EmpleadoDTO;
-import com.supermercado.supermercado.models.Cargo;
 import com.supermercado.supermercado.models.Empleado;
 
 @Component
@@ -27,7 +24,7 @@ public class EmpleadoMapper {
         empleado.setUuid(empleadoDTO.getUuid());
         empleado.setNombre(empleadoDTO.getNombre());
         empleado.setCedula(empleadoDTO.getCedula());
-        empleado.setCargo(Cargo.valueOf(empleadoDTO.getCargo().toUpperCase()));
+        empleado.setCargo(Empleado.Cargo.valueOf(empleadoDTO.getCargo().toUpperCase()));
         empleado.setSalario(empleadoDTO.getSalario());
         return empleado;
     }

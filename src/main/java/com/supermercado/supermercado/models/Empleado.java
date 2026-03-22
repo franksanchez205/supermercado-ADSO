@@ -1,6 +1,5 @@
 package com.supermercado.supermercado.models;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +26,7 @@ import jakarta.persistence.EntityListeners;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 // SQLDelete se mantiene igual
-@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE empleado SET deleted = true WHERE id=?")
 // CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
 @SQLRestriction("deleted = false")
 public class Empleado {
@@ -60,16 +59,22 @@ public class Empleado {
     @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
     private boolean deleted;
 
+    // Enum para el cargo del empleado
+    public enum Cargo {
+        CAJERO,
+        REPOSITOR,
+        ADMINISTRADOR
+    }
+
     public Empleado() {
     }
 
-    public Empleado(Long id, String uuid, String nombre, String cedula, Date createDate, Cargo cargo,
+    public Empleado(Long id, String uuid, String nombre, String cedula, Cargo cargo,
             double salario) {
         this.id = id;
         this.uuid = uuid;
         this.nombre = nombre;
         this.cedula = cedula;
-        this.createDate = createDate;
         this.cargo = cargo;
         this.salario = salario;
     }

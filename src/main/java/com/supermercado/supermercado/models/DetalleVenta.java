@@ -11,9 +11,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.EntityListeners;
 
@@ -21,7 +18,7 @@ import jakarta.persistence.EntityListeners;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 // SQLDelete se mantiene igual
-@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE detalle_venta SET deleted = true WHERE id=?")
 // CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
 @SQLRestriction("deleted = false")
 public class DetalleVenta {
@@ -41,6 +38,9 @@ public class DetalleVenta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Producto producto;
 
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
+
     public DetalleVenta() {
     }
 
@@ -50,6 +50,5 @@ public class DetalleVenta {
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
     }
-
 
 }
