@@ -16,10 +16,6 @@ public class EmpleadoMapper {
         empleadoDTO.setUuid(empleado.getUuid());
         empleadoDTO.setNombre(empleado.getNombre());
         empleadoDTO.setCedula(empleado.getCedula());
-        if (empleado.getCreateDate() != null) {
-            empleadoDTO.setFechaIngreso(Date.valueOf(empleado.getCreateDate());
-        }
-
         empleadoDTO.setCargo(empleado.getCargo().name());
 
         empleadoDTO.setSalario(empleado.getSalario());
@@ -31,9 +27,6 @@ public class EmpleadoMapper {
         empleado.setUuid(empleadoDTO.getUuid());
         empleado.setNombre(empleadoDTO.getNombre());
         empleado.setCedula(empleadoDTO.getCedula());
-        if (empleadoDTO.getFechaIngreso() != null) {
-            empleado.setFechaIngreso(empleadoDTO.getFechaIngreso().toLocalDate());
-        }
         empleado.setCargo(Cargo.valueOf(empleadoDTO.getCargo().toUpperCase()));
         empleado.setSalario(empleadoDTO.getSalario());
         return empleado;
