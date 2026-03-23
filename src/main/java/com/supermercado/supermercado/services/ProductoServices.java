@@ -31,7 +31,14 @@ public class ProductoServices {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public ProductoDTO> getALLProducto(String productoUuId) {
+    public List<ProductoDTO> getAllProductos() {
+        return productoRepository.findAll()
+                .stream()
+                .map(producto -> productoMapper.toDTO(producto, true))
+                .collect(Collectors.toList());
+    }
+
+    public ProductoDTO getALLProducto(String productoUuId) {
 
         Optional<Producto> optionalProducto = productoRepository.findAllByUuIdProducto(productoUuId);
 

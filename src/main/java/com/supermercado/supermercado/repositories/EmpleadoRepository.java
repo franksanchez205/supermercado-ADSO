@@ -13,7 +13,7 @@ import com.supermercado.supermercado.models.Empleado;
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
 
     @Query("SELECT e FROM Empleado e WHERE e.cargo = ?1")
-    List<Empleado> findByCargo(Empleado.Cargo cargo);
+    List<Empleado> findByCargo(String cargo);
 
     @Query("SELECT e FROM Empleado e WHERE e.uuidCodigo = ?1")
     Empleado findByUuid(String uuid);
