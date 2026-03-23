@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+
 import org.springframework.stereotype.Service;
 
 import com.supermercado.supermercado.dtos.CategoriaDTO;
@@ -17,7 +17,6 @@ import com.supermercado.supermercado.models.Producto;
 import com.supermercado.supermercado.repositories.CategoriaRepository;
 import com.supermercado.supermercado.repositories.ProductoRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductoServices {

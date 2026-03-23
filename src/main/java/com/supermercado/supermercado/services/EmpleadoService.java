@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.supermercado.supermercado.dtos.EmpleadoDTO;
+import com.supermercado.supermercado.exceptions.NotFoundException;
 import com.supermercado.supermercado.mapper.EmpleadoMapper;
 import com.supermercado.supermercado.models.Empleado;
 import com.supermercado.supermercado.repositories.EmpleadoRepository;
@@ -16,6 +17,9 @@ public class EmpleadoService {
 
     @Autowired
     private EmpleadoRepository empleadoRepository;
+
+    @Autowired
+    private VentaService ventaService;
 
     @Autowired
     private EmpleadoMapper empleadoMapper;
@@ -44,4 +48,37 @@ public class EmpleadoService {
         Empleado empleado = empleadoMapper.getEmpleado(empleadoDTO);
         return empleadoMapper.toDTO(empleadoRepository.save(empleado));
     }
+
+    public EmpleadoDTO eliminarEmpleado(String empleadoUuId) {
+        Empleado empleado = empleadoRepository.findByUuid(empleadoUuId);
+        if (empleado == null) {
+            throw new NotFoundException("Empleado NO ENCONTRADO", empleadoUuId);
+        }
+        EmpleadoDTO response = empleadoMapper.toDTO(empleado);
+        empleadoRepository.delete(empleado);
+        return response;
+    }
+
+    public EmpleadoDTO modificarEmpleado(String empleadoUuId, EmpleadoDTO empleadoDTO) {
+        Empleado empleado = empleadoRepository.findByUuid(empleadoUuId);
+        if (empleado == null) {
+            throw new NotFoundException("Empleado NO ENCONTRADO", empleadoUuId);
+        }
+        empleado.setNombre(empleadoDTO.getNombre());
+        empleado.setSalario(empleadoDTO.getSalario());
+        return empleadoMapper.toDTO(empleadoRepository.save(empleado));
+    }
+
+    public EmpleadoDTO getEmpleado(String empleadoUuId) {
+        Empleado empleado = empleadoRepository.findByUuid(empleadoUuId);
+        if (empleado == null) {
+            throw new NotFoundException("Empleado NO ENCONTRADO", empleadoUuId);
+        }
+        return empleadoMapper.toDTO(empleado);
+    }
+
+    public EmpleadoDTO realizarVenta(Str{
+
+    }
+
 }
