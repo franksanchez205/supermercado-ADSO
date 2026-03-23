@@ -31,7 +31,7 @@ public class ProductoServices {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public ProductoDTO getALLProducto(String productoUuId) {
+    public ProductoDTO> getALLProducto(String productoUuId) {
 
         Optional<Producto> optionalProducto = productoRepository.findAllByUuIdProducto(productoUuId);
 
