@@ -12,7 +12,6 @@ public class ProveedorMapper {
 
         ProveedorDTO proveedorDTO = new ProveedorDTO();
         proveedorDTO.setNit(proveedor.getNit());
-        proveedorDTO.setUuid(proveedor.getUuid());
         proveedorDTO.setNombre(proveedor.getNombre());
         proveedorDTO.setTelefono(proveedor.getTelefono());
         proveedorDTO.setDireccion(proveedor.getDirección());
@@ -25,7 +24,6 @@ public class ProveedorMapper {
 
         Proveedor proveedor = new Proveedor();
         proveedor.setNit(proveedorDTO.getNit());
-        proveedor.setUuid(proveedorDTO.getUuid());
         proveedor.setNombre(proveedorDTO.getNombre());
         proveedor.setTelefono(proveedorDTO.getTelefono());
         proveedor.setDirección(proveedorDTO.getDireccion());

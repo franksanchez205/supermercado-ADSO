@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
 import lombok.Data;
 
 import org.hibernate.annotations.SQLDelete;
@@ -25,9 +24,7 @@ import jakarta.persistence.EntityListeners;
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-// SQLDelete se mantiene igual
 @SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
-// CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
 @SQLRestriction("deleted = false")
 public class Categoria {
     @Id
@@ -35,7 +32,7 @@ public class Categoria {
     private Long id;
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid;
+    private String uuidCodigo;
 
     private String nombre;
     private String descripción;
@@ -57,21 +54,21 @@ public class Categoria {
     public Categoria() {
     }
 
-    public Categoria(String uuid) {
-        this.uuid = uuid;
+    public Categoria(String uuidCodigo) {
+        this.uuidCodigo = uuidCodigo;
 
     }
 
-    public Categoria(Long id, String uuid, String nombre, String descripción) {
+    public Categoria(Long id, String uuidCodigo, String nombre, String descripción) {
         this.id = id;
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.descripción = descripción;
     }
 
     @PrePersist
     public void initializeUuid() {
-        this.setUuid(UUID.randomUUID().toString());
+        this.setUuidCodigo(UUID.randomUUID().toString());
 
     }
 

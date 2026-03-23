@@ -28,9 +28,7 @@ import jakarta.persistence.EntityListeners;
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-// SQLDelete se mantiene igual
 @SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
-// CAMBIO AQUÍ: @Where se reemplaza por @SQLRestriction
 @SQLRestriction("deleted = false")
 public class Producto {
 
@@ -39,7 +37,7 @@ public class Producto {
     private Long id;
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid;
+    private String uuidCodigo;
     private String nombre;
     private String descripción;
     private double precio;
@@ -69,13 +67,13 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String uuid) {
-        this.uuid = uuid;
+    public Producto(String uuidCodigo) {
+        this.uuidCodigo = uuidCodigo;
     }
 
-    public Producto(Long id, String uuid, String nombre, String descripción, double precio, int stock) {
+    public Producto(Long id, String uuidCodigo, String nombre, String descripción, double precio, int stock) {
         this.id = id;
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.descripción = descripción;
         this.precio = precio;
@@ -85,7 +83,7 @@ public class Producto {
 
     @PrePersist
     public void initializeUuid() {
-        this.setUuid(UUID.randomUUID().toString());
+        this.setUuidCodigo(UUID.randomUUID().toString());
 
     }
 }

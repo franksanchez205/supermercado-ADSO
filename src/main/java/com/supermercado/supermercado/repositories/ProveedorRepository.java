@@ -11,10 +11,10 @@ import com.supermercado.supermercado.models.Proveedor;
 @Repository
 public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
 
-    @Query("SELECT p FROM Proveedor p WHERE p.uuid = ?1")
-    Optional<Proveedor> findOneByUuid(String uuid);
+    @Query("SELECT p FROM Proveedor p WHERE p.nit = ?1")
+    Optional<Proveedor> findOneByNit(String nit);
 
-    @Query("SELECT p FROM Proveedor p WHERE p.uuid = ?1")
-    Proveedor findByUuid(String uuid);
+    @Query("SELECT p FROM Proveedor p WHERE p.nit = ?1")
+    Proveedor findByNit(String nit);
 
 }

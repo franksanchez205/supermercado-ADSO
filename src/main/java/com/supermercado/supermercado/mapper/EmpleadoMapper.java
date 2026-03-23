@@ -10,7 +10,7 @@ public class EmpleadoMapper {
 
     public EmpleadoDTO toDTO(Empleado empleado) {
         EmpleadoDTO empleadoDTO = new EmpleadoDTO();
-        empleadoDTO.setUuid(empleado.getUuid());
+        empleadoDTO.setUuidCodigo(empleado.getUuidCodigo());
         empleadoDTO.setNombre(empleado.getNombre());
         empleadoDTO.setCedula(empleado.getCedula());
         empleadoDTO.setCargo(empleado.getCargo().name());
@@ -21,7 +21,7 @@ public class EmpleadoMapper {
 
     public Empleado getEmpleado(EmpleadoDTO empleadoDTO) {
         Empleado empleado = new Empleado();
-        empleado.setUuid(empleadoDTO.getUuid());
+        empleado.setUuidCodigo(empleadoDTO.getUuidCodigo());
         empleado.setNombre(empleadoDTO.getNombre());
         empleado.setCedula(empleadoDTO.getCedula());
         empleado.setCargo(Empleado.Cargo.valueOf(empleadoDTO.getCargo().toUpperCase()));

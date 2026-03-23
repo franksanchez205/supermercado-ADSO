@@ -11,7 +11,7 @@ public class CategoriaMapper {
     public CategoriaDTO toDTO(Categoria categoria) {
 
         CategoriaDTO categoriaDTO = new CategoriaDTO();
-        categoriaDTO.setUuid(categoria.getUuid());
+        categoriaDTO.setUuidCodigo(categoria.getUuidCodigo());
         categoriaDTO.setNombre(categoria.getNombre());
         categoriaDTO.setDescripción(categoria.getDescripción());
 
@@ -22,7 +22,7 @@ public class CategoriaMapper {
     public Categoria getCategoria(CategoriaDTO categoriaDTO) {
 
         Categoria categoria = new Categoria();
-        categoria.setUuid(categoriaDTO.getUuid());
+        categoria.setUuidCodigo(categoriaDTO.getUuidCodigo());
         categoria.setNombre(categoriaDTO.getNombre());
         categoria.setDescripción(categoriaDTO.getDescripción());
 

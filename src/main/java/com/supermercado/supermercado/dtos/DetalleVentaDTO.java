@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class DetalleVentaDTO {
 
-    private String uuid;
+    private String uuidCodigo;
+
     private int cantidad;
 
     private double precioUnitario;
@@ -20,9 +21,9 @@ public class DetalleVentaDTO {
     public DetalleVentaDTO() {
     }
 
-    public DetalleVentaDTO(String uuid, int cantidad, double precioUnitario) {
+    public DetalleVentaDTO(String uuidCodigo, int cantidad, double precioUnitario) {
 
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
     }

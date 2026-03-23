@@ -60,7 +60,7 @@ public class CategoriaServices {
         return categoriaMapper.toDTO(categoriaRepository.save(categoria));
     }
 
-    public CategoriaDTO updateCategoria(String categoriaUuId, CategoriaDTO categoriaDTO) {
+    public CategoriaDTO modificarCategoria(String categoriaUuId, CategoriaDTO categoriaDTO) {
 
         Categoria example1 = new Categoria(categoriaUuId);
 
@@ -68,7 +68,7 @@ public class CategoriaServices {
 
         if (categoriaOptional.isEmpty()) {
 
-            throw new NotFoundException("categoria NO ENCONTRADA", categoriaDTO.getUuid());
+            throw new NotFoundException("categoria NO ENCONTRADA", categoriaDTO.getUuidCodigo());
         }
         Categoria categoria = categoriaOptional.get();
 
@@ -81,7 +81,7 @@ public class CategoriaServices {
 
     }
 
-    public CategoriaDTO deleteCategoria(String categoriaUuId) {
+    public CategoriaDTO eliminarCategoria(String categoriaUuId) {
 
         Categoria example1 = new Categoria(categoriaUuId);
 
@@ -106,7 +106,7 @@ public class CategoriaServices {
         }
         // 2. Buscar productos usando el ID de la categoría encontrada
         // Aquí el filtro de Soft Delete se aplica solo y de forma limpia
-        List<Producto> productos = productoRepository.findByCategoriaUuid(categoria.getUuid());
+        List<Producto> productos = productoRepository.findByCategoriaUuid(categoria.getUuidCodigo());
 
         // 3. Mapear a DTO
         return productos.stream()
