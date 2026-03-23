@@ -1,11 +1,33 @@
 package com.supermercado.supermercado.dtos;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
 public class ProductoDTO {
 
+
+    @NotBlank(message = "El uuid no puede estar vacío")
+    @Size(min = 3, max = 36, message = "El uuid debe tener entre 3 y 36 caracteres")
     private String uuid;
+
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
+
+    @NotBlank(message = "La descripción no puede estar vacía")
+    @Size(min = 3, max = 100, message = "La descripción debe tener entre 3 y 100 caracteres")
     private String descripción;
+
+    @NotNull(message = "El precio es obligatorio")
+    @Positive(message = "El precio debe ser mayor a cero")
     private double precio;
+
+    @Min(value = 0, message = "El stock no puede ser negativo")
     private int stock;
 
     private CategoriaDTO categoria;
@@ -25,54 +47,6 @@ public class ProductoDTO {
         this.precio = precio;
         this.stock = stock;
 
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripción() {
-        return descripción;
-    }
-
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public CategoriaDTO getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(CategoriaDTO categoria) {
-        this.categoria = categoria;
     }
 
 }

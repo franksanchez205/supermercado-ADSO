@@ -12,4 +12,6 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     @Query("SELECT c FROM Categoria c WHERE c.uuid = ?1")
     Categoria findOneBYUuId(String uuid);
 
+    
+
 }

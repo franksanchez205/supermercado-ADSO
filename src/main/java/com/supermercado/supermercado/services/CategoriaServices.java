@@ -60,9 +60,9 @@ public class CategoriaServices {
         return categoriaMapper.toDTO(categoriaRepository.save(categoria));
     }
 
-    public CategoriaDTO updateCategoria(CategoriaDTO categoriaDTO) {
+    public CategoriaDTO updateCategoria(String categoriaUuId, CategoriaDTO categoriaDTO) {
 
-        Categoria example1 = new Categoria(categoriaDTO.getUuid());
+        Categoria example1 = new Categoria(categoriaUuId);
 
         Optional<Categoria> categoriaOptional = categoriaRepository.findOne(Example.of(example1));
 

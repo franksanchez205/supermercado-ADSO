@@ -1,6 +1,10 @@
 package com.supermercado.supermercado.dtos;
 
+import lombok.Data;
+
+@Data
 public class CategoriaDTO {
+
 
     private String uuid;
     private String nombre;
@@ -15,29 +19,4 @@ public class CategoriaDTO {
         this.nombre = nombre;
         this.descripción = descripción;
     }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripción() {
-        return descripción;
-    }
-
-    public void setDescripción(String descripción) {
-        this.descripción = descripción;
-    }
-
 }

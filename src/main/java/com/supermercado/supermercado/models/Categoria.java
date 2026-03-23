@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import org.hibernate.annotations.SQLDelete;
@@ -20,7 +21,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.EntityListeners;
-
 
 @Data
 @Entity
@@ -36,6 +36,7 @@ public class Categoria {
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
     private String uuid;
+
     private String nombre;
     private String descripción;
 
@@ -47,11 +48,11 @@ public class Categoria {
     @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
     private Date notifieldDate;
 
-    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
-    private boolean deleted;
-
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE)
     private List<Producto> producList;
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
 
     public Categoria() {
     }
