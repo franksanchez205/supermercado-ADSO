@@ -13,22 +13,25 @@ import com.supermercado.supermercado.models.Producto;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
-    @Query("SELECT p FROM Producto p WHERE p.uuid = ?1")
-    Optional<Producto> findOneByUuid(String uuid);
+    @Query("SELECT p FROM Producto p WHERE p.uuidCodigo = ?1")
+    Optional<Producto> findAllByUuIdProducto(String uuidCodigo);
 
-    @Query("SELECT p FROM Producto p WHERE p.uuid = ?1")
-    Producto findByUuid(String uuid);
+    @Query("SELECT p FROM Producto p WHERE p.uuidCodigo = ?1")
+    Optional<Producto> findByUuIdProducto(String uuidCodigo);
+
+    @Query("SELECT p FROM Producto p WHERE p.uuidCodigo = ?1")
+    Producto findByUuProducto(String uuidCodigo);
 
     @Query("SELECT p FROM DetalleVenta p WHERE p.producto.id = ?1")
     DetalleVenta findByProductoId(Long id);
 
-    @Query("SELECT p FROM Producto p JOIN p.proveedorList prov WHERE prov.uuid = ?1")
-    List<Producto> findByProveedores_Uuid(String uuid);
+    @Query("SELECT p FROM Producto p JOIN p.proveedorList prov WHERE prov.nit = ?1")
+    List<Producto> findByProveedores_Nit(String nit);
 
     // Spring aplicará el filtro de 'deleted = false' automáticamente por la entidad
     List<Producto> findByCategoriaId(String uuid);
 
-    @Query("SELECT p FROM Producto p WHERE p.categoria.uuid = ?1")
+    @Query("SELECT p FROM Producto p WHERE p.categoria.uuidCodigo = ?1")
     List<Producto> findByCategoriaUuid(String uuid);
 
 }

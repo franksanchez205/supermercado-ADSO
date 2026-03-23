@@ -6,16 +6,16 @@ import lombok.Data;
 public class CategoriaDTO {
 
 
-    private String uuid;
+    private String uuidCodigo;
     private String nombre;
     private String descripción;
 
     public CategoriaDTO() {
     }
 
-    public CategoriaDTO(String uuid, String nombre, String descripción) {
+    public CategoriaDTO(String uuidCodigo, String nombre, String descripción) {
 
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.descripción = descripción;
     }

@@ -10,7 +10,7 @@ public class VentaMapper {
 
     public VentaDTO toDTO(Venta venta) {
         VentaDTO ventaDTO = new VentaDTO();
-        ventaDTO.setUuid(venta.getUuid());
+        ventaDTO.setUuidCodigo(venta.getUuidCodigo());
         ventaDTO.setFecha(venta.getFecha());
         ventaDTO.setSubTotal(venta.getSubTotal());
         ventaDTO.setIva(venta.getIva());
@@ -20,7 +20,7 @@ public class VentaMapper {
 
     public Venta toVenta(VentaDTO ventaDTO) {
         Venta venta = new Venta();
-        venta.setUuid(ventaDTO.getUuid());
+        venta.setUuidCodigo(ventaDTO.getUuidCodigo());
         venta.setFecha(ventaDTO.getFecha());
         venta.setSubTotal(ventaDTO.getSubTotal());
         venta.setIva(ventaDTO.getIva());

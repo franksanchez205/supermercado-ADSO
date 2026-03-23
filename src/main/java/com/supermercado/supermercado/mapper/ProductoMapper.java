@@ -16,7 +16,7 @@ public class ProductoMapper {
     public ProductoDTO toDTO(Producto producto, boolean mapCategoria) {
 
         ProductoDTO productoDTO = new ProductoDTO();
-        productoDTO.setUuid(producto.getUuid());
+        productoDTO.setUuidCodigo(producto.getUuidCodigo());
         productoDTO.setNombre(producto.getNombre());
         productoDTO.setDescripción(producto.getDescripción());
         productoDTO.setPrecio(producto.getPrecio());
@@ -32,7 +32,7 @@ public class ProductoMapper {
     public Producto getProducto(ProductoDTO productoDTO, Categoria categoria) {
 
         Producto producto = new Producto();
-        producto.setUuid(productoDTO.getUuid());
+        producto.setUuidCodigo(productoDTO.getUuidCodigo());
         producto.setNombre(productoDTO.getNombre());
         producto.setDescripción(productoDTO.getDescripción());
         producto.setPrecio(productoDTO.getPrecio());

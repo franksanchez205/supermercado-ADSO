@@ -15,7 +15,7 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
     @Query("SELECT e FROM Empleado e WHERE e.cargo = ?1")
     List<Empleado> findByCargo(Empleado.Cargo cargo);
 
-    @Query("SELECT e FROM Empleado e WHERE e.uuid = ?1")
+    @Query("SELECT e FROM Empleado e WHERE e.uuidCodigo = ?1")
     Empleado findByUuid(String uuid);
 
     @Query("SELECT e FROM Empleado e WHERE e.createDate BETWEEN ?1 AND ?2")

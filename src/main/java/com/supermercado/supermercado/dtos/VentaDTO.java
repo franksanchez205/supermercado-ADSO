@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class VentaDTO {
 
-    private String uuid;
+    private String uuidCodigo;
     private Date fecha;
     private double subTotal;
     private double iva;
@@ -21,9 +21,9 @@ public class VentaDTO {
     public VentaDTO() {
     }
 
-    public VentaDTO(String uuid, Date fecha, double subTotal, double iva, double total) {
+    public VentaDTO(String uuidCodigo, Date fecha, double subTotal, double iva, double total) {
 
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.fecha = fecha;
         this.subTotal = subTotal;
         this.iva = iva;

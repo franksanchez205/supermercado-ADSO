@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class EmpleadoDTO {
 
-    private String uuid;
+    private String uuidCodigo;
 
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
@@ -27,10 +27,10 @@ public class EmpleadoDTO {
     public EmpleadoDTO() {
     }
 
-    public EmpleadoDTO(String uuid, String nombre, String cedula, Date createDate, String cargo,
+    public EmpleadoDTO(String uuidCodigo, String nombre, String cedula, Date createDate, String cargo,
             double salario) {
 
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.cedula = cedula;
         this.createDate = createDate;

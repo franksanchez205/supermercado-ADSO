@@ -10,10 +10,8 @@ import lombok.Data;
 @Data
 public class ProductoDTO {
 
-
-    @NotBlank(message = "El uuid no puede estar vacío")
     @Size(min = 3, max = 36, message = "El uuid debe tener entre 3 y 36 caracteres")
-    private String uuid;
+    private String uuidCodigo;
 
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
@@ -35,13 +33,13 @@ public class ProductoDTO {
     public ProductoDTO() {
     }
 
-    public ProductoDTO(String uuid) {
-        this.uuid = uuid;
+    public ProductoDTO(String uuidCodigo) {
+        this.uuidCodigo = uuidCodigo;
     }
 
-    public ProductoDTO(String uuid, String nombre, String descripción, double precio, int stock) {
+    public ProductoDTO(String uuidCodigo, String nombre, String descripción, double precio, int stock) {
 
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.descripción = descripción;
         this.precio = precio;

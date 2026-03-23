@@ -9,9 +9,7 @@ import com.supermercado.supermercado.models.Categoria;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
-    @Query("SELECT c FROM Categoria c WHERE c.uuid = ?1")
+    @Query("SELECT c FROM Categoria c WHERE c.uuidCodigo = ?1")
     Categoria findOneBYUuId(String uuid);
-
-    
 
 }

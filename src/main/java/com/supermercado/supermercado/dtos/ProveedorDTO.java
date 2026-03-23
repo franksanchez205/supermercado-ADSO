@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class ProveedorDTO {
 
-    private int nit;
-    private String uuid;
+    private String nit;
     private String nombre;
     private String telefono;
     private String direccion;
@@ -14,10 +13,9 @@ public class ProveedorDTO {
     public ProveedorDTO() {
     }
 
-    public ProveedorDTO(int nit, String uuid, String nombre, String telefono, String direccion) {
+    public ProveedorDTO(String nit, String nombre, String telefono, String direccion) {
 
         this.nit = nit;
-        this.uuid = uuid;
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direccion;

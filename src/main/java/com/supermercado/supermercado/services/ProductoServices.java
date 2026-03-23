@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.supermercado.supermercado.dtos.CategoriaDTO;
@@ -15,6 +16,8 @@ import com.supermercado.supermercado.models.Categoria;
 import com.supermercado.supermercado.models.Producto;
 import com.supermercado.supermercado.repositories.CategoriaRepository;
 import com.supermercado.supermercado.repositories.ProductoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductoServices {
@@ -28,11 +31,11 @@ public class ProductoServices {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public ProductoDTO getProducto(String productoUuId) {
+    public ProductoDTO getALLProducto(String productoUuId) {
 
-        Optional<Producto> optionalProducto = productoRepository.findOneByUuid(productoUuId);
+        Optional<Producto> optionalProducto = productoRepository.findAllByUuIdProducto(productoUuId);
 
-        if (optionalProducto.isEmpty()) {
+        if (optionalProducto == null) {
             throw new NotFoundException("producto", productoUuId);
         }
 
@@ -50,11 +53,11 @@ public class ProductoServices {
             throw new NotFoundException("Categoria NO ENCONTRADA", null);
         }
 
-        Categoria categoria = categoriaRepository.findOneBYUuId(categoriaDTO.getUuid());
+        Categoria categoria = categoriaRepository.findOneBYUuId(categoriaDTO.getUuidCodigo());
 
         if (categoria == null) {
 
-            throw new NotFoundException("categoria ", categoriaDTO.getUuid());
+            throw new NotFoundException("categoria NO ENCONTRADA: ", categoriaDTO.getUuidCodigo());
         }
 
         Producto producto = productoMapper.getProducto(productoDTO, categoria);
@@ -63,12 +66,12 @@ public class ProductoServices {
         return productoMapper.toDTO(producto, true);
     }
 
-    public ProductoDTO updateProducto(String productoUuId, ProductoDTO productoDTO) {
+    public ProductoDTO modificarProducto(String productoUuId, ProductoDTO productoDTO) {
 
-        Producto producto = productoRepository.findByUuid(productoUuId);
+        Producto producto = productoRepository.findByUuProducto(productoUuId);
 
         if (producto == null) {
-            throw new NotFoundException("Producto NO ENCONTRADO con uuid ", productoUuId);
+            throw new NotFoundException("Producto NO ENCONTRADO con el codigo: ", productoUuId);
         }
 
         producto.setNombre(productoDTO.getNombre());
@@ -81,25 +84,21 @@ public class ProductoServices {
         return productoMapper.toDTO(producto, true);
     }
 
-    public ProductoDTO deleteProducto(String productoUuId) {
+    public ProductoDTO eliminarProducto(String productoUuId) {
+        // 1. Buscar el producto (usando Optional de una vez)
+        Producto producto = productoRepository.findByUuIdProducto(productoUuId)
+                .orElseThrow(() -> new NotFoundException("Producto NO ENCONTRADO", productoUuId));
 
-        Optional<Producto> optionalProducto = productoRepository.findOneByUuid(productoUuId);
+        // 2. Mapear ANTES de borrar (opcional, si quieres devolver los datos que
+        // borraste)
+        // Pero ojo: si la categoría no existe en DB, esto seguirá fallando.
+        // Para evitarlo, el Mapper debería validar si la categoría es nula o manejar el
+        // error.
+        ProductoDTO response = productoMapper.toDTO(producto, true);
 
-        if (optionalProducto.isEmpty()) {
-            throw new NotFoundException("Producto NO ENCONTRADO con uuid ", productoUuId);
-        }
-
-        Producto producto = optionalProducto.get();
-
+        // 3. Borrar
         productoRepository.delete(producto);
 
-        return productoMapper.toDTO(producto, true);
-    }
-
-    public List<ProductoDTO> getAllProductos() {
-
-        return productoRepository.findAll().stream().map(producto -> productoMapper.toDTO(producto, true))
-                .collect(Collectors.toList());
-
+        return response;
     }
 }

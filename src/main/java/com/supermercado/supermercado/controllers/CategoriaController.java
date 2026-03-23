@@ -1,7 +1,6 @@
 package com.supermercado.supermercado.controllers;
 
 import java.util.List;
-import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/categorias")
-public clas {
+public class CategoriaController {
 
     @Autowired
     private CategoriaServices categoriaServices;
@@ -45,14 +44,15 @@ public clas {
     }
 
     @PutMapping("/{categoriaUuId}")
-    public CategoriaDTO updateCategoria(@Valid @PathVariable String categoriaUuId, @RequestBody CategoriaDTO categoriaDTO) {
+    public CategoriaDTO updateCategoria(@Valid @PathVariable String categoriaUuId,
+            @RequestBody CategoriaDTO categoriaDTO) {
 
-        return categoriaServices.updateCategoria(categoriaUuId, categoriaDTO);
+        return categoriaServices.modificarCategoria(categoriaUuId, categoriaDTO);
     }
 
     @DeleteMapping("/{categoriaUuId}")
     public ResponseEntity<CategoriaDTO> deleteCategoria(@Valid @PathVariable String categoriaUuId) {
-        return ResponseEntity.ok(categoriaServices.deleteCategoria(categoriaUuId));
+        return ResponseEntity.ok(categoriaServices.eliminarCategoria(categoriaUuId));
     }
 
     @GetMapping("/{categoriaUuId}/productos")
