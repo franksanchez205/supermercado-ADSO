@@ -12,7 +12,7 @@ import com.supermercado.supermercado.mapper.ProductoMapper;
 import com.supermercado.supermercado.dtos.ProveedorDTO;
 import com.supermercado.supermercado.mapper.ProveedorMapper;
 import com.supermercado.supermercado.exceptions.NotFoundException;
-import com.supermercado.supermercado.models.Product;
+import com.supermercado.supermercado.models.Producto;
 import com.supermercado.supermercado.models.Proveedor;
 import com.supermercado.supermercado.repositories.ProductoRepository;
 import com.supermercado.supermercado.repositories.ProveedorRepository;
@@ -52,7 +52,7 @@ public class ProveedorServices {
 
     public ProveedorDTO updateProveedor(String proveedorUuId, ProveedorDTO proveedorDTO) {
 
-        Proveedor proveedor = proveedorRepository.findByUuid(proveedorUuId);
+        Proveedor proveedor = proveedorRepository.findByUuidCodigo(proveedorUuId);
 
         if (proveedor == null) {
             throw new NotFoundException("Proveedor NO ENCONTRADO con uuid ", proveedorUuId);
@@ -69,10 +69,10 @@ public class ProveedorServices {
 
     public ProveedorDTO deleteProveedor(String proveedorUuId) {
 
-        Optional<Proveedor> optionalProveedor = proveedorRepository.findOneByUuid(proveedorUuId);
+        Optional<Proveedor> optionalProveedor = proveedorRepository.findOneByNit(proveedorUuId);
 
         if (optionalProveedor.isEmpty()) {
-            throw new NotFoundException("Proveedor NO ENCONTRADO con uuid ", proveedorUuId);
+            throw new NotFoundException("Proveedor NO ENCONTRADO con nit ", proveedorUuId);
         }
 
         Proveedor proveedor = optionalProveedor.get();
@@ -85,7 +85,7 @@ public class ProveedorServices {
     public List<ProductoDTO> getProductosByProveedor(String proveedorUuId) {
 
         return productoRepository
-                .findByProveedores_Uuid(proveedorUuId)
+                .findByCategoriaId(proveedorUuId)
                 .stream()
                 .map(producto -> productoMapper.toDTO(producto, true))
                 .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class ProveedorServices {
 
     public ProductoDTO entradaAlmacen(Long productoId, Long proveedorId, Integer cantidad) {
         // 1. Validar que el producto existe
-        Product producto = productoRepository.findById(productoId)
+        Producto producto = productoRepository.findById(productoId)
                 .orElseThrow(() -> new NotFoundException("Producto no encontrado", productoId.toString()));
 
         // 2. Validar que el proveedor existe

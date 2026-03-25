@@ -7,9 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.supermercado.supermercado.dtos.EmpleadoDTO;
+import com.supermercado.supermercado.dtos.VentaDTO;
 import com.supermercado.supermercado.exceptions.NotFoundException;
 import com.supermercado.supermercado.mapper.EmpleadoMapper;
+import com.supermercado.supermercado.mapper.VentaMapper;
 import com.supermercado.supermercado.models.Empleado;
+import com.supermercado.supermercado.models.Venta;
 import com.supermercado.supermercado.repositories.EmpleadoRepository;
 
 @Service
@@ -23,6 +26,12 @@ public class EmpleadoService {
 
     @Autowired
     private EmpleadoMapper empleadoMapper;
+
+    @Autowired
+    private VentaMapper ventaMapper;
+
+    @Autowired
+    private Venta venta;
 
     public List<EmpleadoDTO> listarPorCargo(String cargo) {
 
@@ -77,7 +86,14 @@ public class EmpleadoService {
         return empleadoMapper.toDTO(empleado);
     }
 
-    public EmpleadoDTO realizarVenta(Str{
+    public EmpleadoDTO realizarVenta(String empleadoUuId, VentaDTO ventaDTO) {
+        Empleado empleado = empleadoRepository.findByUuid(empleadoUuId);
+        if (empleado == null) {
+            throw new NotFoundException("Empleado NO ENCONTRADO", empleadoUuId);
+        }
+        VentaDTO venta = ventaService.saveVenta(ventaDTO);
+        empleado.getVentaList().add(ventaMapper.toVenta(venta));
+        return empleadoMapper.toDTO(empleado);
 
     }
 

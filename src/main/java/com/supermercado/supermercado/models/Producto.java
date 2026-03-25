@@ -28,7 +28,7 @@ import jakarta.persistence.EntityListeners;
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE producto SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
 public class Producto {
 

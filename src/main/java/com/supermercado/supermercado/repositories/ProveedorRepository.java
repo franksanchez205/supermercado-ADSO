@@ -17,4 +17,7 @@ public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
     @Query("SELECT p FROM Proveedor p WHERE p.nit = ?1")
     Proveedor findByNit(String nit);
 
+    @Query("SELECT p FROM Proveedor p WHERE p.uuidCodigo = ?1")
+    Proveedor findByUuidCodigo(String uuidCodigo);
+
 }

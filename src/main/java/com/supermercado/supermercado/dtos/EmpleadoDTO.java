@@ -19,7 +19,7 @@ public class EmpleadoDTO {
     @NotBlank(message = "La cedula no puede estar vacía")
     @Size(min = 3, max = 50, message = "La cedula debe tener entre 3 y 50 caracteres")
     private String cedula;
-    
+
     private Date createDate;
     private String cargo;
     private double salario;
@@ -38,4 +38,3 @@ public class EmpleadoDTO {
         this.salario = salario;
     }
 }
-
