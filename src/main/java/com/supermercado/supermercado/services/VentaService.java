@@ -75,4 +75,9 @@ public class VentaService {
         return ventaMapper.toDTO(ventaRepository.save(venta));
     }
 
+    public VentaDTO saveVenta(VentaDTO ventaDTO) {
+        Venta venta = ventaMapper.toVenta(ventaDTO);
+        return ventaMapper.toDTO(ventaRepository.save(venta));
+    }
+
 }
