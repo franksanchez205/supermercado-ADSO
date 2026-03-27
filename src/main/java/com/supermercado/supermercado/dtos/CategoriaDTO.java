@@ -8,19 +8,17 @@ public class CategoriaDTO {
 
     private String uuidCodigo;
 
-    @NotBlank(message = "El nombre es requerido")
     private String nombre;
 
-    @NotBlank(message = "La descripción es requerida")
-    private String descripción;
+    private String descripcion;
 
     public CategoriaDTO() {
     }
 
-    public CategoriaDTO(String uuidCodigo, String nombre, String descripción) {
+    public CategoriaDTO(String uuidCodigo, String nombre, String descripcion) {
 
         this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
     }
 }

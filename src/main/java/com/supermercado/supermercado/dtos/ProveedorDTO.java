@@ -7,6 +7,10 @@ import lombok.Data;
 @Data
 public class ProveedorDTO {
 
+    private String uuidCodigo;
+
+    @NotBlank(message = "El nit es requerido")
+    @Size(min = 3, max = 50, message = "El nit debe tener entre 3 y 50 caracteres")
     private String nit;
 
     @NotBlank(message = "El nombre es requerido")
@@ -24,8 +28,9 @@ public class ProveedorDTO {
     public ProveedorDTO() {
     }
 
-    public ProveedorDTO(String nit, String nombre, String telefono, String direccion) {
+    public ProveedorDTO(String uuidCodigo, String nit, String nombre, String telefono, String direccion) {
 
+        this.uuidCodigo = uuidCodigo;
         this.nit = nit;
         this.nombre = nombre;
         this.telefono = telefono;

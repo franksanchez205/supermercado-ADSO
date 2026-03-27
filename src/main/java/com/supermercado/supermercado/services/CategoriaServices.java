@@ -73,7 +73,7 @@ public class CategoriaServices {
         Categoria categoria = categoriaOptional.get();
 
         categoria.setNombre(categoriaDTO.getNombre());
-        categoria.setDescripción(categoriaDTO.getDescripción());
+        categoria.setDescripcion(categoriaDTO.getDescripcion());
 
         categoria = categoriaRepository.save(categoria);
 

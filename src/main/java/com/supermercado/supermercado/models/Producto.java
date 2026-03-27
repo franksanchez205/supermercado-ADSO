@@ -39,7 +39,7 @@ public class Producto {
     @Column(updatable = false, nullable = false, unique = true, length = 36)
     private String uuidCodigo;
     private String nombre;
-    private String descripción;
+    private String descripcion;
     private double precio;
     private int stock;
 
@@ -71,11 +71,11 @@ public class Producto {
         this.uuidCodigo = uuidCodigo;
     }
 
-    public Producto(Long id, String uuidCodigo, String nombre, String descripción, double precio, int stock) {
+    public Producto(Long id, String uuidCodigo, String nombre, String descripcion, double precio, int stock) {
         this.id = id;
         this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
 
