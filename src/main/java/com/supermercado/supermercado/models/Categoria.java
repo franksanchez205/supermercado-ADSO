@@ -35,7 +35,7 @@ public class Categoria {
     private String uuidCodigo;
 
     private String nombre;
-    private String descripción;
+    private String descripcion;
 
     @CreatedDate
     @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
@@ -63,7 +63,7 @@ public class Categoria {
         this.id = id;
         this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripción;
     }
 
     @PrePersist

@@ -30,9 +30,6 @@ public class EmpleadoService {
     @Autowired
     private VentaMapper ventaMapper;
 
-    @Autowired
-    private Venta venta;
-
     public List<EmpleadoDTO> listarPorCargo(String cargo) {
 
         return empleadoRepository.findByCargo(cargo)

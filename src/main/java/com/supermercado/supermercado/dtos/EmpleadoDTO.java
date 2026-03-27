@@ -12,11 +12,10 @@ public class EmpleadoDTO {
 
     private String uuidCodigo;
 
-    @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
     private String nombre;
 
-    @NotBlank(message = "La cedula no puede estar vacía")
+
     @Size(min = 3, max = 50, message = "La cedula debe tener entre 3 y 50 caracteres")
     private String cedula;
 

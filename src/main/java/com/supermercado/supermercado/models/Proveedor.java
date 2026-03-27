@@ -31,6 +31,9 @@ public class Proveedor {
     private Long id;
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
+    private String uuidCodigo;
+
+    @Column(updatable = false, nullable = false, unique = true, length = 36)
     private String nit;
     private String nombre;
     private String dirección;
@@ -53,8 +56,9 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor(Long id, String nit, String nombre, String dirección, String telefono) {
+    public Proveedor(Long id, String uuidCodigo, String nit, String nombre, String dirección, String telefono) {
         this.id = id;
+        this.uuidCodigo = uuidCodigo;
         this.nit = nit;
         this.nombre = nombre;
         this.dirección = dirección;

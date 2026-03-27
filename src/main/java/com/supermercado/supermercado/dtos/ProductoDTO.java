@@ -19,7 +19,7 @@ public class ProductoDTO {
 
     @NotBlank(message = "La descripción no puede estar vacía")
     @Size(min = 3, max = 100, message = "La descripción debe tener entre 3 y 100 caracteres")
-    private String descripción;
+    private String descripcion;
 
     @NotNull(message = "El precio es obligatorio")
     @Positive(message = "El precio debe ser mayor a cero")
@@ -37,11 +37,11 @@ public class ProductoDTO {
         this.uuidCodigo = uuidCodigo;
     }
 
-    public ProductoDTO(String uuidCodigo, String nombre, String descripción, double precio, int stock) {
+    public ProductoDTO(String uuidCodigo, String nombre, String descripcion, double precio, int stock) {
 
         this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
 
