@@ -1,5 +1,6 @@
 package com.supermercado.supermercado.models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,8 +18,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
 
-@Entity
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.EntityListeners;
+
 @Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE producto SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Producto {
 
     @Id
@@ -26,14 +37,25 @@ public class Producto {
     private Long id;
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid;
+    private String uuidCodigo;
     private String nombre;
-    private String descripción;
+    private String descripcion;
     private double precio;
     private int stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
+
+    @CreatedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date createDate;
+
+    @LastModifiedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date notifieldDate;
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
 
     @ManyToMany()
     @JoinTable(name = "producto_proveedor", joinColumns = @JoinColumn(name = "producto_id"), inverseJoinColumns = @JoinColumn(name = "proveedor_id"))
@@ -45,15 +67,15 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String uuid) {
-        this.uuid = uuid;
+    public Producto(String uuidCodigo) {
+        this.uuidCodigo = uuidCodigo;
     }
 
-    public Producto(Long id, String uuid, String nombre, String descripción, double precio, int stock) {
+    public Producto(Long id, String uuidCodigo, String nombre, String descripcion, double precio, int stock) {
         this.id = id;
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripcion;
         this.precio = precio;
         this.stock = stock;
 
@@ -61,7 +83,7 @@ public class Producto {
 
     @PrePersist
     public void initializeUuid() {
-        this.setUuid(UUID.randomUUID().toString());
+        this.setUuidCodigo(UUID.randomUUID().toString());
 
     }
 }

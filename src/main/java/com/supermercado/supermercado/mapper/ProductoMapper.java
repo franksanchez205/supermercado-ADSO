@@ -1,0 +1,46 @@
+package com.supermercado.supermercado.mapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.supermercado.supermercado.dtos.ProductoDTO;
+import com.supermercado.supermercado.models.Categoria;
+import com.supermercado.supermercado.models.Producto;
+
+@Component
+public class ProductoMapper {
+
+    @Autowired
+    private CategoriaMapper categoriaMapper;
+
+    public ProductoDTO toDTO(Producto producto, boolean mapCategoria) {
+
+        ProductoDTO productoDTO = new ProductoDTO();
+        productoDTO.setUuidCodigo(producto.getUuidCodigo());
+        productoDTO.setNombre(producto.getNombre());
+        productoDTO.setDescripcion(producto.getDescripcion());
+        productoDTO.setPrecio(producto.getPrecio());
+        productoDTO.setStock(producto.getStock());
+        if (mapCategoria) {
+            productoDTO.setCategoria(categoriaMapper.toDTO(producto.getCategoria()));
+        }
+
+        return productoDTO;
+
+    }
+
+    public Producto getProducto(ProductoDTO productoDTO, Categoria categoria) {
+
+        Producto producto = new Producto();
+        producto.setUuidCodigo(productoDTO.getUuidCodigo());
+        producto.setNombre(productoDTO.getNombre());
+        producto.setDescripcion(productoDTO.getDescripcion());
+        producto.setPrecio(productoDTO.getPrecio());
+        producto.setStock(productoDTO.getStock());
+        producto.setCategoria(categoria);
+
+        return producto;
+
+    }
+
+}

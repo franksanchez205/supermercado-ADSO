@@ -1,6 +1,6 @@
 package com.supermercado.supermercado.models;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +15,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.EntityListeners;
 
-@Entity
 @Data
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE empleado SET deleted = true WHERE id=?")
+@SQLRestriction("deleted = false")
 public class Empleado {
 
     @Id
@@ -25,10 +34,9 @@ public class Empleado {
     private Long id;
 
     @Column(updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid;
+    private String uuidCodigo;
     private String nombre;
     private String cedula;
-    private LocalDate fechaIngreso;
 
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
@@ -38,23 +46,39 @@ public class Empleado {
     @OneToMany(mappedBy = "empleado", cascade = CascadeType.REMOVE)
     private List<Venta> ventaList;
 
+    @CreatedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date createDate;
+
+    @LastModifiedDate
+    @Column(updatable = false, columnDefinition = "timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP")
+    private Date notifieldDate;
+
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
+
+    // Enum para el cargo del empleado
+    public enum Cargo {
+        CAJERO,
+        REPOSITOR,
+        ADMINISTRADOR
+    }
+
     public Empleado() {
     }
 
-    public Empleado(Long id, String uuid, String nombre, String cedula, LocalDate fechaIngreso, Cargo cargo,
+    public Empleado(Long id, String uuidCodigo, String nombre, String cedula, Cargo cargo,
             double salario) {
         this.id = id;
-        this.uuid = uuid;
+        this.uuidCodigo = uuidCodigo;
         this.nombre = nombre;
         this.cedula = cedula;
-        this.fechaIngreso = fechaIngreso;
         this.cargo = cargo;
         this.salario = salario;
     }
 
     @PrePersist
     public void initializeUuid() {
-        this.setUuid(UUID.randomUUID().toString());
-
+        this.setUuidCodigo(UUID.randomUUID().toString());
     }
 }
