@@ -66,8 +66,14 @@ public class Proveedor {
     }
 
     @PrePersist
-    public void initializeUuid() {
-        this.setNit(UUID.randomUUID().toString());
+    public void prepararDatosAntesDeGuardar() {
 
+        if (this.uuidCodigo == null) {
+            this.uuidCodigo = java.util.UUID.randomUUID().toString();
+
+            if (this.nit == null) {
+                this.nit = java.util.UUID.randomUUID().toString();
+            }
+        }
     }
 }
