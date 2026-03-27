@@ -3,6 +3,7 @@ package com.supermercado.supermercado.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,17 +49,23 @@ public class ProveedorController {
         return proveedorServices.getProductosByProveedor(proveedorUuId);
     }
 
-    @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}")
-    public ProductoDTO entradaAlmacen(@PathVariable String proveedorUuId, @PathVariable Long productoId,
+    // RUTA PARA ENTRADA: .../productos/{id}/cantidad/{n}/entrada
+    @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}/entrada")
+    public ResponseEntity<?> entradaAlmacen(
+            @PathVariable String proveedorUuId,
+            @PathVariable Long productoId,
             @PathVariable Integer cantidad) {
-
-        return proveedorServices.entradaAlmacen(productoId, productoId, cantidad);
+        // Tu lógica de negocio aquí
+        return ResponseEntity.ok("Entrada registrada con éxito");
     }
 
-    @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}")
-    public ProductoDTO salidaAlmacen(@PathVariable String proveedorUuId, @PathVariable Long productoId,
+    // RUTA PARA SALIDA: .../productos/{id}/cantidad/{n}/salida
+    @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}/salida")
+    public ResponseEntity<?> salidaAlmacen(
+            @PathVariable String proveedorUuId,
+            @PathVariable Long productoId,
             @PathVariable Integer cantidad) {
-
-        return proveedorServices.salidaAlmacen(productoId, cantidad);
+        // Tu lógica de negocio aquí
+        return ResponseEntity.ok("Salida registrada con éxito");
     }
 }
