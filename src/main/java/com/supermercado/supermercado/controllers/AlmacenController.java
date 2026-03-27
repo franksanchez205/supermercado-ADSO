@@ -16,9 +16,9 @@ public class AlmacenController {
 
     @PostMapping()
     public ResponseEntity<ProductoDTO> entradaAlmacen(
-            @RequestParam Long productoId,
-            @RequestParam Long proveedorId,
-            @RequestParam Integer cantidad) {
+            @PathVariable Long productoId,
+            @PathVariable Long proveedorId,
+            @PathVariable int cantidad) {
 
         ProductoDTO productoActualizado = proveedorServices.entradaAlmacen(productoId, proveedorId, cantidad);
         return ResponseEntity.ok(productoActualizado);
