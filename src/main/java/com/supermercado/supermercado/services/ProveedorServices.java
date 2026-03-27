@@ -114,4 +114,27 @@ public class ProveedorServices {
         // 5. Retornar DTO (puedes usar tu mapper aquí)
         return productoMapper.toDTO(producto, true);
     }
+
+     public ProductoDTO salidaAlmacen(Long productoId, Integer cantidad) {
+        // 1. Validar que el producto existe
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new NotFoundException("Producto no encontrado", productoId.toString()));
+
+        // 2. Validar que hay stock suficiente
+        if (producto.getStock() < cantidad) {
+            throw new RuntimeException("No hay stock suficiente para la venta");
+        }
+
+        // 3. Regla de Negocio: Restar unidades al stock actual
+        Integer nuevoStock = producto.getStock() - cantidad;
+        producto.setStock(nuevoStock);
+
+        productoRepository.save(producto);
+
+        // 4. Retornar DTO (puedes usar tu mapper aquí)
+        return productoMapper.toDTO(producto, true);
+    }
 }
+
+
+
