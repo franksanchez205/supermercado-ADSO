@@ -17,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import com.supermercado.supermercado.dtos.CategoriaDTO;
 import com.supermercado.supermercado.dtos.ProductoDTO;
-import com.supermercado.supermercado.security.Permission;
-import com.supermercado.supermercado.security.UserRole;
+import com.supermercado.supermercado.security.Permisos;
+import com.supermercado.supermercado.security.Roles;
 import com.supermercado.supermercado.services.AuthorizationService;
 import com.supermercado.supermercado.services.CategoriaServices;
 
@@ -48,7 +48,7 @@ public class CategoriaController {
     @PostMapping()
     public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO, HttpServletRequest request) {
 
-        authorizationService.requirePermission(request, Permission.USERS_CREATE);
+        authorizationService.requirePermission(request, Permisos.USERS_CREATE);
       
 
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaServices.saveCategoria(categoriaDTO));
@@ -59,7 +59,7 @@ public class CategoriaController {
         
             @RequestBody CategoriaDTO categoriaDTO, HttpServletRequest request) {
 
-    authorizationService.requirePermission(request, Permission.USERS_CREATE);
+    authorizationService.requirePermission(request, Permisos.USERS_CREATE);
 
         return categoriaServices.modificarCategoria(categoriaUuId, categoriaDTO);
     }

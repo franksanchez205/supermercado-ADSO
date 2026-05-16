@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.supermercado.supermercado.security.Permission;
-import com.supermercado.supermercado.security.UserRole;
+import com.supermercado.supermercado.security.Permisos;
+import com.supermercado.supermercado.security.Roles;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,7 +25,7 @@ public class AuthorizationService {
      * @param request
      * @param permission
      */
-    public void requirePermission(HttpServletRequest request, Permission permission) {
+    public void requirePermission(HttpServletRequest request, Permisos permisos) {
         // Obtenemos el rol a partir del id que se seteo en el filtro de jwt
         Object rolId = request.getAttribute("rolId");
         // Validamos si el rol es un long
@@ -34,18 +34,19 @@ public class AuthorizationService {
         }
 
         // Obtenemos el rol a partir del id
-        UserRole role;
+        Roles role;
         try {
             // Obtenemos el rol a partir del id
-            role = UserRole.fromId(String.valueOf(rolId));
+            role = Roles.fromId(String.valueOf(rolId));
             // Validamos si el rol tiene permiso para realizar la accion
         } catch (IllegalArgumentException e) {
             // si no existe el rol, lanzamos una excepcion
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Rol no permitido");
         }
         // si no tiene el permiso, lanzamos una excepcion
-        if (!role.hasPermission(permission)) {
+        if (!role.optenerPermisos(permisos)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tiene permiso para esta accion");
         }
+
     }
 }
