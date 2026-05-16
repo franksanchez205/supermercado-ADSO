@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: market-jwt
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/market
+    #url: jdbc:mysql://localhost:3306/market?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false
+    username: postgres
+    password: 
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        "[format_sql]": true
+        # Es recomendable añadir el dialecto para MySQL 8+
+        #dialect: org.hibernate.dialect.MySQLDialect
+        # Dialecto específico para PostgreSQL
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+server:
+  port: 9090
+  servlet:
+    context-path: /api/v1/
+
+logging:
+  level:
+    "[org.springframework]": INFO
+
+security:
+  jwt:
+    # Clave secreta que se genera con openssl rand -base64 32
+    secret-key: WCrD7ZwsNH2yZx4d29X3522BEAYTjm7BiNJxi9xksjU=
+    # Expiracion expresada en ms (10 min)
+    token-expiration: 600000

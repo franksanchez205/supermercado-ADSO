@@ -14,7 +14,7 @@ public class AlmacenController {
     @Autowired
     private ProveedorServices proveedorServices;
 
-    @PostMapping()
+    @PostMapping("/productos/{productoId}/proveedores/{proveedorId}/cantidad/{cantidad}/entrada")
     public ResponseEntity<ProductoDTO> entradaAlmacen(
             @PathVariable Long productoId,
             @PathVariable Long proveedorId,

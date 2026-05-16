@@ -12,7 +12,6 @@ import com.supermercado.supermercado.exceptions.NotFoundException;
 import com.supermercado.supermercado.mapper.EmpleadoMapper;
 import com.supermercado.supermercado.mapper.VentaMapper;
 import com.supermercado.supermercado.models.Empleado;
-import com.supermercado.supermercado.models.Venta;
 import com.supermercado.supermercado.repositories.EmpleadoRepository;
 
 @Service
