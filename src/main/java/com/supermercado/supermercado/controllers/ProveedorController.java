@@ -52,9 +52,11 @@ public class ProveedorController {
     // RUTA PARA ENTRADA: .../productos/{id}/cantidad/{n}/entrada
     @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}/entrada")
     public ResponseEntity<?> entradaAlmacen(
-            @PathVariable String proveedorUuId,
+            @PathVariable Long proveedorUuId,
             @PathVariable Long productoId,
             @PathVariable Integer cantidad) {
+        proveedorServices.entradaAlmacen(proveedorUuId, productoId, cantidad);
+
         // Tu lógica de negocio aquí
         return ResponseEntity.ok("Entrada registrada con éxito");
     }
@@ -62,9 +64,11 @@ public class ProveedorController {
     // RUTA PARA SALIDA: .../productos/{id}/cantidad/{n}/salida
     @PostMapping("/{proveedorUuId}/productos/{productoId}/cantidad/{cantidad}/salida")
     public ResponseEntity<?> salidaAlmacen(
-            @PathVariable String proveedorUuId,
+            @PathVariable Long proveedorUuId,
             @PathVariable Long productoId,
             @PathVariable Integer cantidad) {
+        proveedorServices.salidaAlmacen(proveedorUuId, productoId, cantidad);
+
         // Tu lógica de negocio aquí
         return ResponseEntity.ok("Salida registrada con éxito");
     }

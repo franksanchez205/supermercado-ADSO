@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import org.hibernate.annotations.SQLDelete;
@@ -26,6 +27,7 @@ import jakarta.persistence.EntityListeners;
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "UPDATE categoria SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
+@Table(name = "categoria")
 public class Categoria {
     @Id
     @GeneratedValue

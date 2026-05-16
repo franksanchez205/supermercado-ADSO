@@ -115,7 +115,7 @@ public class ProveedorServices {
         return productoMapper.toDTO(producto, true);
     }
 
-     public ProductoDTO salidaAlmacen(Long productoId, Integer cantidad) {
+    public ProductoDTO salidaAlmacen(Long proveedorUuId, Long productoId, Integer cantidad) {
         // 1. Validar que el producto existe
         Producto producto = productoRepository.findById(productoId)
                 .orElseThrow(() -> new NotFoundException("Producto no encontrado", productoId.toString()));
@@ -135,6 +135,3 @@ public class ProveedorServices {
         return productoMapper.toDTO(producto, true);
     }
 }
-
-
-
