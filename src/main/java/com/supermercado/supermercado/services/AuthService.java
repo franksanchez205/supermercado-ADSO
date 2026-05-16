@@ -12,7 +12,7 @@ import com.supermercado.supermercado.dtos.RefreshTokenResponseDTO;
 import com.supermercado.supermercado.dtos.RegisterRequestDTO;
 import com.supermercado.supermercado.models.Users;
 import com.supermercado.supermercado.repositories.UsersRepository;
-import com.supermercado.supermercado.security.UserRole;
+import com.supermercado.supermercado.security.Roles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class AuthService {
 
         // Si el rol no es válido, se lanzará una excepción
         try {
-            UserRole.fromId(String.valueOf(request.getRol()));
+            Roles.fromId(String.valueOf(request.getRol()));
 
         } catch (IllegalArgumentException e) {
             // Lanzamos la excepción con un mensaje descriptivo
