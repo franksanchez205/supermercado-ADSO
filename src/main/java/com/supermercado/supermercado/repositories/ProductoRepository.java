@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.supermercado.supermercado.models.DetalleVenta;
 import com.supermercado.supermercado.models.Producto;
-import com.supermercado.supermercado.models.Proveedor;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {

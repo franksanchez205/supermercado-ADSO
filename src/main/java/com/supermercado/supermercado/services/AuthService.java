@@ -12,10 +12,16 @@ import com.supermercado.supermercado.dtos.RefreshTokenResponseDTO;
 import com.supermercado.supermercado.dtos.RegisterRequestDTO;
 import com.supermercado.supermercado.models.Users;
 import com.supermercado.supermercado.repositories.UsersRepository;
-import com.supermercado.supermercado.security.UserRole;
+import com.supermercado.supermercado.security.Roles;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Servicio para gestionar la autenticación y autorización de usuarios en el sistema.
+ * Proporciona métodos para el registro de nuevos usuarios, inicio de sesión y renovación de tokens
+ * Utiliza el repositorio de usuarios para acceder a la base de datos y el servicio de
+ * JWT para generar y validar tokens de autenticación.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -40,7 +46,7 @@ public class AuthService {
 
         // Si el rol no es válido, se lanzará una excepción
         try {
-            UserRole.fromId(String.valueOf(request.getRol()));
+            Roles.fromId(String.valueOf(request.getRol()));
 
         } catch (IllegalArgumentException e) {
             // Lanzamos la excepción con un mensaje descriptivo

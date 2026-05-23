@@ -68,8 +68,8 @@ public class JwtService {
                 .claims(Map.of("rolId", rolId))
                 .subject(userName) // A quien pertenece el token
                 .issuedAt(new Date()) // Fecha de creación del token
-                .expiration(new Date(System.currentTimeMillis() + tokenExpiration)) // expiracion del token expresada en
-                                                                                    // ms (fecha actual + 10 min)
+                .expiration(new Date(new Date().getTime() + tokenExpiration)) // expiracion del token expresada en
+                                                                                // ms (fecha actual + 10 min)
                 .signWith(getSigninKey()) // Firmado con (llave secreta del yaml)
                 .compact(); // Contruye el string final
     }

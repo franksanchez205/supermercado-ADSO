@@ -18,6 +18,12 @@ import com.supermercado.supermercado.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Controlador para gestionar la autenticación y autorización de usuarios en el sistema.
+ * Proporciona endpoints para el registro de nuevos usuarios, inicio de sesión y renovación de tokens
+ * Utiliza el servicio de autenticación para manejar la lógica de negocio relacionada con la
+ * autenticación y autorización, y devuelve respuestas adecuadas según el resultado de cada operación.
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
