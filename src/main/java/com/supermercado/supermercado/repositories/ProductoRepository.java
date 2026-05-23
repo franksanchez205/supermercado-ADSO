@@ -34,4 +34,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     @Query("SELECT p FROM Producto p WHERE p.categoria.uuidCodigo = ?1")
     List<Producto> findByCategoriaUuid(String uuid);
 
+    @Query("SELECT p FROM Proveedor p WHERE p.uuidCodigo = ?1")
+    Optional<Producto> findByUuidCodigo(String proveedorUuId);
+
 }

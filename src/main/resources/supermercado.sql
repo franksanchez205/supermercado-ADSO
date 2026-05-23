@@ -1,83 +1,152 @@
-create database supermercado;
-use supermercado;
--- 1. Tabla Categoria
+-- Script PostgreSQL para la base usada por application.yaml: market
+-- Ejecutar conectado a la base de datos market.
+
+DROP TABLE IF EXISTS detalle_venta CASCADE;
+DROP TABLE IF EXISTS producto_proveedor CASCADE;
+DROP TABLE IF EXISTS venta CASCADE;
+DROP TABLE IF EXISTS producto CASCADE;
+DROP TABLE IF EXISTS proveedor CASCADE;
+DROP TABLE IF EXISTS empleado CASCADE;
+DROP TABLE IF EXISTS categoria CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+DROP SEQUENCE IF EXISTS categoria_seq;
+DROP SEQUENCE IF EXISTS detalle_venta_seq;
+DROP SEQUENCE IF EXISTS empleado_seq;
+DROP SEQUENCE IF EXISTS producto_seq;
+DROP SEQUENCE IF EXISTS proveedor_seq;
+DROP SEQUENCE IF EXISTS venta_seq;
+
+CREATE SEQUENCE categoria_seq START WITH 100 INCREMENT BY 50;
+CREATE SEQUENCE detalle_venta_seq START WITH 100 INCREMENT BY 50;
+CREATE SEQUENCE empleado_seq START WITH 100 INCREMENT BY 50;
+CREATE SEQUENCE producto_seq START WITH 100 INCREMENT BY 50;
+CREATE SEQUENCE proveedor_seq START WITH 100 INCREMENT BY 50;
+CREATE SEQUENCE venta_seq START WITH 100 INCREMENT BY 50;
+
 CREATE TABLE categoria (
-    id bigint PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('categoria_seq'),
     uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
     nombre VARCHAR(255),
-    descripción VARCHAR(255),
-    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notifield_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    descripcion VARCHAR(255),
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notifield_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- 2. Tabla Empleado
 CREATE TABLE empleado (
-    id bigint PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('empleado_seq'),
     uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
     nombre VARCHAR(255),
     cedula VARCHAR(255),
-    cargo VARCHAR(50), -- Para el Enum (CAJERO, REPOSITOR, ADMINISTRADOR)
-    salario DOUBLE PRECISION,
-    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notifield_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    cargo VARCHAR(255) CHECK (cargo IN ('CAJERO', 'REPOSITOR', 'ADMINISTRADOR')),
+    salario DOUBLE PRECISION NOT NULL,
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notifield_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- 3. Tabla Producto
-CREATE TABLE producto (
-    id bigint PRIMARY KEY,
-    uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
-    nombre VARCHAR(255),
-    descripción VARCHAR(255),
-    precio DOUBLE PRECISION,
-    stock INTEGER,
-    categoria_id BIGINT REFERENCES categoria(id),
-    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notifield_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN NOT NULL DEFAULT FALSE
-);
-
--- 4. Tabla Proveedor
 CREATE TABLE proveedor (
-    id bigint PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('proveedor_seq'),
+    uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
     nit VARCHAR(36) NOT NULL UNIQUE,
     nombre VARCHAR(255),
     dirección VARCHAR(255),
     telefono VARCHAR(255),
-    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notifield_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notifield_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- 5. Tabla Intermedia Producto_Proveedor (ManyToMany)
+CREATE TABLE producto (
+    id BIGINT PRIMARY KEY DEFAULT nextval('producto_seq'),
+    uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
+    nombre VARCHAR(255),
+    descripcion VARCHAR(255),
+    precio DOUBLE PRECISION NOT NULL,
+    stock INTEGER NOT NULL,
+    categoria_id BIGINT REFERENCES categoria(id),
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notifield_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 CREATE TABLE producto_proveedor (
-    producto_id BIGINT REFERENCES producto(id),
-    proveedor_id BIGINT REFERENCES proveedor(id),
+    producto_id BIGINT NOT NULL REFERENCES producto(id),
+    proveedor_id BIGINT NOT NULL REFERENCES proveedor(id),
     PRIMARY KEY (producto_id, proveedor_id)
 );
 
--- 6. Tabla Venta
 CREATE TABLE venta (
-    id bigint PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('venta_seq'),
     uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
-    fecha TIMESTAMP,
-    sub_total DOUBLE PRECISION,
-    iva DOUBLE PRECISION,
-    total DOUBLE PRECISION,
+    fecha TIMESTAMP WITHOUT TIME ZONE,
+    sub_total DOUBLE PRECISION NOT NULL,
+    iva DOUBLE PRECISION NOT NULL,
+    total DOUBLE PRECISION NOT NULL,
     empleado_id BIGINT REFERENCES empleado(id),
-    create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notifield_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notifield_date TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- 7. Tabla DetalleVenta
 CREATE TABLE detalle_venta (
-    id bigint PRIMARY KEY,
+    id BIGINT PRIMARY KEY DEFAULT nextval('detalle_venta_seq'),
     uuid_codigo VARCHAR(36) NOT NULL UNIQUE,
-    cantidad INTEGER,
-    precio_unitario DOUBLE PRECISION,
+    cantidad INTEGER NOT NULL,
+    precio_unitario DOUBLE PRECISION NOT NULL,
     venta_id BIGINT REFERENCES venta(id),
     producto_id BIGINT REFERENCES producto(id),
     deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE TABLE users (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    rol_id VARCHAR(255)
+);
+
+INSERT INTO categoria (id, uuid_codigo, nombre, descripcion) VALUES
+    (1, '11111111-1111-1111-1111-111111111111', 'Abarrotes', 'Productos de despensa'),
+    (2, '11111111-1111-1111-1111-111111111112', 'Lacteos', 'Leche, quesos y derivados'),
+    (3, '11111111-1111-1111-1111-111111111113', 'Aseo', 'Productos de limpieza y cuidado del hogar');
+
+INSERT INTO empleado (id, uuid_codigo, nombre, cedula, cargo, salario) VALUES
+    (1, '44444444-4444-4444-4444-444444444441', 'Carlos Perez', '1234567890', 'CAJERO', 1800000),
+    (2, '44444444-4444-4444-4444-444444444442', 'Laura Gomez', '1098765432', 'REPOSITOR', 1700000),
+    (3, '44444444-4444-4444-4444-444444444443', 'Andrea Rojas', '1122334455', 'ADMINISTRADOR', 3200000);
+
+INSERT INTO proveedor (id, uuid_codigo, nit, nombre, dirección, telefono) VALUES
+    (1, '33333333-3333-3333-3333-333333333331', '900123456', 'Proveedor Central', 'Calle 123 #45-67', '3001234567'),
+    (2, '33333333-3333-3333-3333-333333333332', '900654321', 'Distribuidora Norte', 'Carrera 10 #20-30', '3007654321');
+
+INSERT INTO producto (id, uuid_codigo, nombre, descripcion, precio, stock, categoria_id) VALUES
+    (1, '22222222-2222-2222-2222-222222222221', 'Arroz premium', 'Arroz blanco por libra', 3500, 20, 1),
+    (2, '22222222-2222-2222-2222-222222222222', 'Leche entera', 'Bolsa de leche entera 1 litro', 4200, 15, 2),
+    (3, '22222222-2222-2222-2222-222222222223', 'Detergente liquido', 'Detergente liquido 1 litro', 12500, 10, 3);
+
+INSERT INTO producto_proveedor (producto_id, proveedor_id) VALUES
+    (1, 1),
+    (2, 1),
+    (3, 2);
+
+INSERT INTO venta (id, uuid_codigo, fecha, sub_total, iva, total, empleado_id) VALUES
+    (1, '55555555-5555-5555-5555-555555555551', CURRENT_TIMESTAMP, 7000, 1330, 8330, 1);
+
+INSERT INTO detalle_venta (id, uuid_codigo, cantidad, precio_unitario, venta_id, producto_id) VALUES
+    (1, '66666666-6666-6666-6666-666666666661', 2, 3500, 1, 1);
+
+-- Password para ambos usuarios: 123456
+-- Roles validos por UserRole.java: 1 ADMINISTRADOR, 2 CLIENTE, 3 INVENTARIO, 4 SUPERVISOR.
+INSERT INTO users (id, username, password, rol_id) VALUES
+    (1, 'admin', '$2a$10$1T35xqD8JTQ6qTUCUSAwTuH5DR3BvYpzJ9vr0gBE7OYCI7Lk59akG', '1'),
+    (2, 'usuario1', '$2a$10$1T35xqD8JTQ6qTUCUSAwTuH5DR3BvYpzJ9vr0gBE7OYCI7Lk59akG', '2');
+
+SELECT setval('categoria_seq', 100, true);
+SELECT setval('detalle_venta_seq', 100, true);
+SELECT setval('empleado_seq', 100, true);
+SELECT setval('producto_seq', 100, true);
+SELECT setval('proveedor_seq', 100, true);
+SELECT setval('venta_seq', 100, true);
+SELECT setval(pg_get_serial_sequence('users', 'id'), 100, true);

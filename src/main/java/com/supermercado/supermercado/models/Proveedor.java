@@ -2,7 +2,6 @@ package com.supermercado.supermercado.models;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +16,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.Table;
 import jakarta.persistence.EntityListeners;
 
 @Data
@@ -24,6 +24,7 @@ import jakarta.persistence.EntityListeners;
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "UPDATE proveedor SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
+@Table(name = "proveedor")
 public class Proveedor {
 
     @Id

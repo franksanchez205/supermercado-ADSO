@@ -16,12 +16,14 @@ import java.util.UUID;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Table;
 
 @Data
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @SQLDelete(sql = "UPDATE DetalleVenta SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
+@Table(name = "detalle_venta")
 public class DetalleVenta {
 
     @Id
