@@ -18,7 +18,6 @@ import com.supermercado.supermercado.dtos.ProductoDTO;
 import com.supermercado.supermercado.security.Permisos;
 import com.supermercado.supermercado.security.RequiresRole;
 import com.supermercado.supermercado.security.Roles;
-import com.supermercado.supermercado.services.AuthorizationService;
 import com.supermercado.supermercado.services.CategoriaServices;
 
 import jakarta.validation.Valid;
